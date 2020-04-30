@@ -40,7 +40,6 @@ class _HomeContentState extends State<HomeContent> {
   final snackKey = GlobalKey<ScaffoldState>();
 
   final AuthService auth = AuthService();
-  // final DatabaseService db = DatabaseService();
 
   List<bool> isEditing = [];
 
@@ -48,7 +47,6 @@ class _HomeContentState extends State<HomeContent> {
   Widget build(BuildContext context) {
 
     final DatabaseService db = DatabaseService(uid: uid);
-    // final QuerySnapshot classes = Provider.of<QuerySnapshot>(context) ?? [];
     
 
     return StreamBuilder<QuerySnapshot>(
@@ -81,7 +79,7 @@ class _HomeContentState extends State<HomeContent> {
               iconTheme: IconThemeData(color: green4),
               centerTitle: true,
               title: Text(
-                uid,
+                "My Classes",
                 style: TextStyle(color: green4, fontFamily: "Times New Roman", fontSize: 32)
               ),
               backgroundColor: Colors.transparent,
@@ -115,7 +113,7 @@ class _HomeContentState extends State<HomeContent> {
                       ),
                       onEditingComplete: () async {
                         if (className != editController.text && editController.text != "") {
-                          await db.updateClasses("Class$index", editController.text ?? className);
+                          await db.updateClasses(index, editController.text ?? className);
                           snackKey.currentState.showSnackBar(SnackBar(
                             content: Text("Class name changed!"),
                             duration: Duration(seconds: 2)
@@ -152,7 +150,7 @@ class _HomeContentState extends State<HomeContent> {
                         borderRadius: 20,
                         onPressed: () async {
                           if (isEditing[index] && className != editController.text && editController.text != "") {
-                            await db.updateClasses("Class$index", editController.text ?? className);
+                            await db.updateClasses(index, editController.text ?? className);
                             snackKey.currentState.showSnackBar(SnackBar(
                               content: Text("Class name changed!"),
                               duration: Duration(seconds: 2)
@@ -204,7 +202,7 @@ class _HomeContentState extends State<HomeContent> {
                     // classes.add(newClass);
                     isEditing.add(true);
                   });
-                  await db.addClass("Class${classes.length}", "New Class");
+                  await db.updateClasses(classes.length, "New Class");
                 }
               }
             ),

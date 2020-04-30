@@ -94,7 +94,7 @@ class CreateAccount extends StatelessWidget {
                           } else {
                             print(result.uid);
                             db.addUid(result.uid);
-                            db.addClass("Class0", "New Class");
+                            db.updateClasses(0, "New Class");
                             Navigator.pushReplacement (
                               context,
                               PageRouteBuilder(

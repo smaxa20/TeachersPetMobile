@@ -10,31 +10,24 @@ class DatabaseService {
     this.uid = newuid;
   }
 
-  // Future getClasses() async {
-  //   return await collection.document(uid).collection("classes").getDocuments();
-  // }
-
   Stream<QuerySnapshot> get classes {
     return collection.document(uid).collection("classes").snapshots();
   }
   
-  Future updateClasses(String classNumber, String className) async {
-    return await collection.document(uid).collection("classes").document(classNumber).setData({
+  Future updateClasses(int classIndex, String className) async {
+    return await collection.document(uid).collection("classes").document("Class$classIndex").setData({
       "name" : className
     }, merge: true);
   }
 
-  Future addClass(String classNumber, String className) async {
-    return await collection.document(uid).collection("classes").document(classNumber).setData({
-      "name" : className
+  Stream<QuerySnapshot> getStudents(int classIndex) {
+    return collection.document(uid).collection("classes").document("Class$classIndex").collection("students").snapshots();
+  }
+
+  Future updateStudents(int classIndex, int studentIndex, String name, List badPairs) async {
+    return await collection.document(uid).collection("classes").document("Class$classIndex").collection("students").document("Student$studentIndex").setData({
+      "name" : name,
+      "badPairs" : badPairs
     }, merge: true);
-  }
-
-  Future getStudents(String className) async {
-    return await collection.document(uid).collection("classes").document(className).collection("students").getDocuments();
-  }
-
-  Future updateStudents(String className, Map<String, dynamic> student) async {
-    return await collection.document(uid).collection("classes").document(className).collection("students").document(student["name"]).setData(student, merge: true);
   }
 }
