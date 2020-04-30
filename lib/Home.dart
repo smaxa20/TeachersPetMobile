@@ -170,7 +170,7 @@ class _HomeContentState extends State<HomeContent> {
                           context,
                           PageRouteBuilder(
                             pageBuilder: (context, animation1, animation2) {
-                              return ClassActions(uid: uid, className: className);
+                              return ClassActions(uid: uid, className: className, classIndex: index);
                             }
                           )
                         );

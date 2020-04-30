@@ -13,7 +13,10 @@ String randomStudent(students) {
 }
 
 List<Map<String, String>> randomPairs(students) {
-  List<Map<String, dynamic>> localStudents = List.from(students);
+  List<Map<String, dynamic>> localStudents = [];
+  for (var doc in students) {
+    localStudents.add(doc.data);
+  }
   String extra;
   List<Map<String, String>> pairs = [];
 
@@ -28,6 +31,12 @@ List<Map<String, String>> randomPairs(students) {
   while (localStudents.isNotEmpty) {
     Map<String, dynamic> student1 = localStudents[randomizer.nextInt(localStudents.length)];
     Map<String, dynamic> student2 = localStudents[randomizer.nextInt(localStudents.length)];
+    if (student1[_badPairs] == null) {
+      student1[_badPairs] = [];
+    }
+    if (student2[_badPairs] == null) {
+      student2[_badPairs] = [];
+    }
 
     if (student1[_name] != student2[_name] && !student1[_badPairs].contains(student2) && !student2[_badPairs].contains(student1)) {
       pairs.add({student1[_name]: student2[_name]});
@@ -44,7 +53,10 @@ List<Map<String, String>> randomPairs(students) {
 }
 
 randomGroups(int studentsPerGroup, students) {
-  List<Map<String, dynamic>> localStudents = List.from(students);
+  List<Map<String, dynamic>> localStudents = [];
+  for (var doc in students) {
+    localStudents.add(doc.data);
+  }
   List<List<String>> groups = [];
   Map<int, String> extras = {};
 
@@ -58,7 +70,10 @@ randomGroups(int studentsPerGroup, students) {
       return "Error: Timeout - please try again";
     }
     restart = false;
-    localStudents = List.from(students);
+    List<Map<String, dynamic>> localStudents = [];
+    for (var doc in students) {
+      localStudents.add(doc.data);
+    }
     groups = [];
     extras = {};
 
@@ -73,6 +88,9 @@ randomGroups(int studentsPerGroup, students) {
     bool badPairFlag = false;
     extras.forEach((key, __name) {
       extras.forEach((__key, name) {
+        if (localStudents[key][_badPairs] == null) {
+          localStudents[key][_badPairs] = [];
+        }
         if (localStudents[key][_badPairs].contains(name)) {
           badPairFlag = true;
         }
@@ -100,6 +118,9 @@ randomGroups(int studentsPerGroup, students) {
       bool badPairFlag = false;
       tempGroup.forEach((key, _name) {
         tempGroup.forEach((_key, name) {
+          if (localStudents[key][_badPairs] == null) {
+            localStudents[key][_badPairs] = [];
+          }
           if (localStudents[key][_badPairs].contains(name)) {
             badPairFlag = true;
           }
@@ -126,7 +147,10 @@ randomGroups(int studentsPerGroup, students) {
 }
 
 randomRows(int numOfRows, students) {
-  List<Map<String, dynamic>> localStudents = List.from(students);
+  List<Map<String, dynamic>> localStudents = [];
+  for (var doc in students) {
+    localStudents.add(doc.data);
+  }
   List<List<String>> rows = [];
   Map<int, String> extras = {};
 
@@ -140,7 +164,10 @@ randomRows(int numOfRows, students) {
       return "Error: Timeout - please try again";
     }
     restart = false;
-    localStudents = List.from(students);
+    List<Map<String, dynamic>> localStudents = [];
+    for (var doc in students) {
+      localStudents.add(doc.data);
+    }
     rows = [];
     extras = {};
 
@@ -156,6 +183,9 @@ randomRows(int numOfRows, students) {
     List<int> extrasKeys = List.from(extras.keys);
     List<String> extrasVals = List.from(extras.values);
     for (int i = 1; i < extras.length; i++) {
+      if (localStudents[extrasKeys[i]][_badPairs] == null) {
+        localStudents[extrasKeys[i]][_badPairs] = [];
+      }
       if (localStudents[extrasKeys[i]][_badPairs].contains(extrasVals[i-1])) {
         badPairFlag = true;
         break;
@@ -184,6 +214,9 @@ randomRows(int numOfRows, students) {
       List<int> tempRowKeys = List.from(tempRow.keys);
       List<String> tempRowVals = List.from(tempRow.values);
       for (int i = 1; i < tempRow.length; i++) {
+        if (localStudents[tempRowKeys[i]][_badPairs] == null) {
+          localStudents[tempRowKeys[i]][_badPairs] = [];
+        }
         if (localStudents[tempRowKeys[i]][_badPairs].contains(tempRowVals[i-1])) {
           badPairFlag = true;
           break;
@@ -191,6 +224,9 @@ randomRows(int numOfRows, students) {
       }
       if (rows.isNotEmpty && rows[0].isNotEmpty) {
         for (int i = 0; i < rows[0].length; i++) {
+          if (localStudents[tempRowKeys[i]][_badPairs] == null) {
+            localStudents[tempRowKeys[i]][_badPairs] = [];
+          }
           if (localStudents[tempRowKeys[i]][_badPairs].contains(rows[0][i])) {
             badPairFlag = true;
             break;
