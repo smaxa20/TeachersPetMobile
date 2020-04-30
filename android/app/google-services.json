@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "253299926657",
+    "firebase_url": "https://teacher-s-pet-dcb67.firebaseio.com",
+    "project_id": "teacher-s-pet-dcb67",
+    "storage_bucket": "teacher-s-pet-dcb67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253299926657:android:c29bba4e38318ed19f8f80",
+        "android_client_info": {
+          "package_name": "com.MaxaTech.TeachersPet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253299926657-a9l1ncq9dnio56h2tmib91ovnk77pt84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxByMU24gX7sKGfW254f4OAncvlu5gfr0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253299926657-a9l1ncq9dnio56h2tmib91ovnk77pt84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
