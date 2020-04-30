@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // import 'package:encrypt/encrypt.dart' as crypt;
 import 'Home.dart';
 import 'CreateAccount.dart';
+import 'auth.dart';
 import 'utilClasses.dart';
 
 class Login extends StatelessWidget {
@@ -13,6 +14,8 @@ class Login extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final username = TextEditingController();
   final password = TextEditingController();
+
+  final AuthService auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -76,16 +79,24 @@ class Login extends StatelessWidget {
                       text: "Go",
                       color: green3,
                       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState.validate()) {
-                          Navigator.pushReplacement (
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) {
-                                return Home(username: username.text);
-                              }
-                            )
-                          );
+                          dynamic result = await auth.signInEmail(username.text, password.text);
+                          if (result == null) {
+                            snackKey.currentState.showSnackBar(SnackBar(
+                              content: Text("Invalid credentials. Please try again."),
+                              duration: Duration(seconds: 2)
+                            ));
+                          } else {
+                            Navigator.pushReplacement (
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) {
+                                  return Home(uid: result.uid);
+                                }
+                              )
+                            );
+                          }
                         }
 
 
