@@ -19,10 +19,6 @@ class Login extends StatelessWidget {
     return Scaffold(
       key: snackKey,
       backgroundColor: white1,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      // ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.max,
