@@ -4,9 +4,9 @@ import 'utilClasses.dart';
 import 'randomizing.dart';
 
 class ClassActions extends StatelessWidget {
-  ClassActions({Key key, @required this.username, @required this.className}) : super(key: key);
+  ClassActions({Key key, @required this.uid, @required this.className}) : super(key: key);
 
-  final String username;
+  final String uid;
   final String className;
 
   final groupsController = TextEditingController();
@@ -188,7 +188,7 @@ class ClassActions extends StatelessWidget {
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) {
-                          return StudentProfiles(username: username, className: className, students: students);
+                          return StudentProfiles(uid: uid, className: className, students: students);
                         }
                       )
                     );

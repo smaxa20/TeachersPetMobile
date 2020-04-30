@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'utilClasses.dart';
 
 class StudentProfiles extends StatefulWidget {
-  StudentProfiles({Key key, @required this.username, @required this.className, @required this.students}) : super(key: key);
+  StudentProfiles({Key key, @required this.uid, @required this.className, @required this.students}) : super(key: key);
 
-  final String username;
+  final String uid;
   final String className;
   List<Map<String, dynamic>> students;
 
   @override
-  _StudentProfilesState createState() => _StudentProfilesState(username: username, className: className, students: students);
+  _StudentProfilesState createState() => _StudentProfilesState(uid: uid, className: className, students: students);
 }
 
 class _StudentProfilesState extends State<StudentProfiles> {
-  _StudentProfilesState({Key key, @required this.username, @required this.className, @required this.students}) : super();
+  _StudentProfilesState({Key key, @required this.uid, @required this.className, @required this.students}) : super();
 
-  final String username;
+  final String uid;
   final String className;
   List<Map<String, dynamic>> students;
 
