@@ -17,6 +17,8 @@ class FilledInput  extends StatelessWidget{
     @required this.hintText,
     this.smallText = false,
     this.maxLines = 1,
+    this.autofocus = false,
+    this.textCapitalization = TextCapitalization.none,
     this.controller,
     this.obscureText = false,
     this.validation
@@ -25,6 +27,8 @@ class FilledInput  extends StatelessWidget{
   final String hintText;
   final bool smallText;
   final int maxLines;
+  final bool autofocus;
+  final TextCapitalization textCapitalization;
   final TextEditingController controller;
   final bool obscureText;
   final Function validation;
@@ -44,6 +48,8 @@ class FilledInput  extends StatelessWidget{
     return TextFormField(
       controller: controller,
       maxLines: maxLines,
+      autofocus: autofocus,
+      textCapitalization: textCapitalization,
       textInputAction: TextInputAction.done,
       style: textStyle,
       obscureText: obscureText,
