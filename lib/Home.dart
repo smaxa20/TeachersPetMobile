@@ -59,9 +59,6 @@ class _HomeContentState extends State<HomeContent> {
           for (var _ in classes) {
             isEditing.add(false);
           }
-          print("*********************\n");
-          print(classes[0].data);
-          print("\n*********************");
 
           return Scaffold(
             key: snackKey,
