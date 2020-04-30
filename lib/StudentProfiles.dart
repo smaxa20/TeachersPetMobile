@@ -1,89 +1,117 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'database.dart';
 import 'utilClasses.dart';
 
-class StudentProfiles extends StatefulWidget {
-  StudentProfiles({Key key, @required this.uid, @required this.className, @required this.students}) : super(key: key);
+class StudentProfiles extends StatelessWidget {
+  StudentProfiles({Key key, @required this.uid, @required this.className, @required this.classIndex}) : super(key: key);
 
   final String uid;
   final String className;
-  List<Map<String, dynamic>> students;
-
-  @override
-  _StudentProfilesState createState() => _StudentProfilesState(uid: uid, className: className, students: students);
-}
-
-class _StudentProfilesState extends State<StudentProfiles> {
-  _StudentProfilesState({Key key, @required this.uid, @required this.className, @required this.students}) : super();
-
-  final String uid;
-  final String className;
-  List<Map<String, dynamic>> students;
-
-  final snackKey = GlobalKey<ScaffoldState>();
-
-  String _name = "name";
-  String _badPairs = "bad pairs";
+  final int classIndex;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: snackKey,
-      backgroundColor: white1,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: green4),
-        centerTitle: true,
-        title: Text(
-          className,
-          style: TextStyle(color: green4, fontFamily: "Times New Roman", fontSize: 32)
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: ListView.builder(
-        itemCount: students.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              students[index][_name].toString(),
-              style: TextStyle(fontFamily: "Times New Roman", fontSize: 18),
+    final DatabaseService db = DatabaseService(uid: uid);
+    return StreamProvider<QuerySnapshot>.value(
+      value: db.classes,
+      child: StudentProfilesContent(uid: uid, className: className, classIndex: classIndex)
+    );
+  }
+}
+
+
+class StudentProfilesContent extends StatefulWidget {
+  StudentProfilesContent({Key key, @required this.uid, @required this.className, @required this.classIndex}) : super(key: key);
+
+  final String uid;
+  final String className;
+  final int classIndex;
+
+  @override
+  _StudentProfilesContentState createState() => _StudentProfilesContentState(uid: uid, className: className, classIndex: classIndex);
+}
+
+class _StudentProfilesContentState extends State<StudentProfilesContent> {
+  _StudentProfilesContentState({Key key, @required this.uid, @required this.className, @required this.classIndex}) : super();
+
+  final String uid;
+  final String className;
+  final int classIndex;
+
+  final snackKey = GlobalKey<ScaffoldState>();
+
+  @override
+  Widget build(BuildContext context) {
+
+    final DatabaseService db = DatabaseService(uid: uid);
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: DatabaseService(uid: uid).getStudents(classIndex),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List students = snapshot.data.documents;
+
+          return Scaffold(
+            key: snackKey,
+            backgroundColor: white1,
+            appBar: AppBar(
+              iconTheme: IconThemeData(color: green4),
+              centerTitle: true,
+              title: Text(
+                className,
+                style: TextStyle(color: green4, fontFamily: "Times New Roman", fontSize: 32)
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
             ),
-            subtitle: Text(
-              "Bad Pairs: " + students[index][_badPairs].toString().replaceAll("[", "").replaceAll("]", ""),
-              style: TextStyle(fontFamily: "Times New Roman", fontSize: 16),
+            body: ListView.builder(
+              itemCount: students.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    students[index]["name"].toString(),
+                    style: TextStyle(fontFamily: "Times New Roman", fontSize: 18),
+                  ),
+                  subtitle: Text(
+                    "Bad Pairs: " + students[index]["badPairs"].toString().replaceAll("[", "").replaceAll("]", ""),
+                    style: TextStyle(fontFamily: "Times New Roman", fontSize: 16),
+                  ),
+                  onTap: () async {
+                    final newStudent = await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return StudentModal(students: students, index: index, snackKey: snackKey);
+                      }
+                    ) as Map<String, dynamic>;
+                    if (newStudent != null) {
+                      await db.updateStudents(classIndex, index, newStudent["name"], newStudent["badPairs"]);
+                    }
+                  },
+                );
+              }
             ),
-            onTap: () async {
-              final newStudents = await showDialog(
-                context: context,
-                builder: (context) {
-                  return StudentModal(students: students, index: index, snackKey: snackKey);
+            floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.add, color: white2),
+                backgroundColor: green4,
+                onPressed: () async {
+                  final newStudent = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return StudentModal(students: students, index: -1, snackKey: snackKey);
+                    }
+                  ) as Map<String, dynamic>;
+                  if (newStudent != null) {
+                    await db.updateStudents(classIndex, students.length, newStudent["name"], newStudent["badPairs"]);
+                  }
                 }
-              ) as List<Map<String, dynamic>>;
-              if (newStudents != null) {
-                setState(() {
-                  students = newStudents;
-                });
-              }
-            },
+              ),
           );
+        } else {
+          return Container(height: 10);
         }
-      ),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add, color: white2),
-          backgroundColor: green4,
-          onPressed: () async {
-            final newStudent = await showDialog(
-              context: context,
-              builder: (context) {
-                return StudentModal(students: students, index: -1, snackKey: snackKey);
-              }
-            ) as Map<String, dynamic>;
-            if (newStudent != null) {
-              setState(() {
-                students.add(newStudent);
-              });
-            }
-          }
-        ),
+      }
     );
   }
 }
@@ -120,21 +148,18 @@ class _StudentModalState extends State<StudentModal> {
   final editNameController = TextEditingController();
   final addBadPairController = TextEditingController();
 
-  static String _name = "name";
-  static String _badPairs = "bad pairs";
-
   Map<String, dynamic> newStudent = {
-    _name: "",
-    _badPairs: []
+    "name": "",
+    "badPairs": []
   };
 
   List<Widget> chipsList = [];
   chips(int index) {
     List badPairs;
     if (index == -1) {
-      badPairs = newStudent[_badPairs];
+      badPairs = newStudent["badPairs"];
     } else {
-      badPairs = students[index][_badPairs];
+      badPairs = students[index]["badPairs"];
     }
     chipsList.clear();
     for (var name in badPairs) {
@@ -147,9 +172,9 @@ class _StudentModalState extends State<StudentModal> {
         onDeleted: () {
           setState(() {
             if (index == -1) {
-              newStudent[_badPairs].removeWhere((element) => element.toString() == name.toString());
+              newStudent["badPairs"].removeWhere((element) => element.toString() == name.toString());
             } else {
-              students[index][_badPairs].removeWhere((element) => element.toString() == name.toString());
+              students[index]["badPairs"].removeWhere((element) => element.toString() == name.toString());
             }
             chipsList = chips(index);
           });
@@ -164,7 +189,7 @@ class _StudentModalState extends State<StudentModal> {
     return AlertDialog(
       backgroundColor: green2,
       title: Text(
-        index == -1 ? "New Student" : students[index][_name].toString(),
+        index == -1 ? "New Student" : students[index]["name"].toString(),
         style: TextStyle(fontFamily: "Times New Roman", fontSize: 24),
         textAlign: TextAlign.center,
       ),
@@ -173,8 +198,10 @@ class _StudentModalState extends State<StudentModal> {
           children: <Widget>[
             FilledInput(
               controller: editNameController,
-              hintText: "Change name...",
+              hintText: index == -1 ? "Name..." : "Change name...",
               smallText: true,
+              autofocus: index == -1,
+              textCapitalization: TextCapitalization.words,
             ),
             Container(height: 8, width: 0),
             Container(
@@ -203,6 +230,7 @@ class _StudentModalState extends State<StudentModal> {
                     controller: addBadPairController,
                     hintText: "Add bad pair...",
                     smallText: true,
+                    textCapitalization: TextCapitalization.words,
                   ),
                 ),
                 Padding(
@@ -217,9 +245,9 @@ class _StudentModalState extends State<StudentModal> {
                     onPressed: () {
                       setState(() {
                         if (index == -1) {
-                          newStudent[_badPairs].add(addBadPairController.text);
+                          newStudent["badPairs"].add(addBadPairController.text);
                         } else {
-                          students[index][_badPairs].add(addBadPairController.text);
+                          students[index]["badPairs"].add(addBadPairController.text);
                         }
                         addBadPairController.text = "";
                       });
@@ -240,7 +268,7 @@ class _StudentModalState extends State<StudentModal> {
           onPressed: () {
             if (index == -1) {
               if (editNameController.text != "") {
-                newStudent[_name] = editNameController.text;
+                newStudent["name"] = editNameController.text;
                 Navigator.pop(context, newStudent);
                 snackKey.currentState.showSnackBar(SnackBar(
                   content: Text("New student created!", style: TextStyle(fontFamily: "Times New Roman")),
@@ -248,10 +276,14 @@ class _StudentModalState extends State<StudentModal> {
                 ));
               }
             } else {
+              Map<String, dynamic> updatedStudent = {
+                "name" : students[index]["name"],
+                "badPairs" : students[index]["badPairs"]
+              };
               if (editNameController.text != "") {
-                students[index][_name] = editNameController.text;
+                updatedStudent["name"] = editNameController.text;
               }
-              Navigator.pop(context, students);
+              Navigator.pop(context, updatedStudent);
               snackKey.currentState.showSnackBar(SnackBar(
                 content: Text("Information updated!", style: TextStyle(fontFamily: "Times New Roman")),
                 duration: Duration(seconds: 2),
