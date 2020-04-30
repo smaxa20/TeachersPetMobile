@@ -1,6 +1,11 @@
 # Miscellaneous
 **/.dart_tool
-**/android
+**/android/*
+!**/android/app/
+!**/android/build.gradle
+**/android/app/*
+!**/android/app/build.gradle
+!**/android/app/google-services.json
 **/ios
 **/test
 *.metadata
