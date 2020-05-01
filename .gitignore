@@ -6,7 +6,10 @@
 **/android/app/*
 !**/android/app/build.gradle
 !**/android/app/google-services.json
-**/ios
+**/ios/*
+!**/ios/Runner/
+**/ios/Runner/*
+!**/ios/Runner/GoogleService-Info.plist
 **/test
 *.metadata
 *.lock

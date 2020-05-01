@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>253299926657-80lcvrv1vs6cdftgcj39v86v09svelsm.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.253299926657-80lcvrv1vs6cdftgcj39v86v09svelsm</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCEzHin24pcBlo2y0B4HCHXN2MmSS5rm_s</string>
+	<key>GCM_SENDER_ID</key>
+	<string>253299926657</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.MaxaTech.TeachersPet</string>
+	<key>PROJECT_ID</key>
+	<string>teacher-s-pet-dcb67</string>
+	<key>STORAGE_BUCKET</key>
+	<string>teacher-s-pet-dcb67.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:253299926657:ios:0365f6abd253a1ef9f8f80</string>
+	<key>DATABASE_URL</key>
+	<string>https://teacher-s-pet-dcb67.firebaseio.com</string>
+</dict>
+</plist>
