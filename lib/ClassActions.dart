@@ -33,28 +33,6 @@ class ClassActionsContent extends StatelessWidget {
   final groupsController = TextEditingController();
   final rowsController = TextEditingController();
 
-  // static final String _name = "name";
-  // static final String _badPairs = "bad pairs";
-  // final List<Map<String, dynamic>> students = [
-  //   {_name: "Karlie", _badPairs: []},
-  //   {_name: "Haylie", _badPairs: ["Tanner"]},
-  //   {_name: "Scott", _badPairs: []},
-  //   {_name: "Paige", _badPairs: ["Tanner", "Penelope"]},
-  //   {_name: "Brad", _badPairs: []},
-  //   {_name: "Becky", _badPairs: ["Buck"]},
-  //   {_name: "Kris", _badPairs: []},
-  //   {_name: "Chelsea", _badPairs: []},
-  //   {_name: "Tanner", _badPairs: ["Haylie", "Paige"]},
-  //   {_name: "Baker", _badPairs: []},
-  //   {_name: "Scarlet", _badPairs: []},
-  //   {_name: "Penelope", _badPairs: ["Paige"]},
-  //   {_name: "Buck", _badPairs: ["Becky"]},
-  //   {_name: "Mayze", _badPairs: []},
-  //   {_name: "Cheeto", _badPairs: []},
-  //   {_name: "Chip", _badPairs: []},
-  // ];
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -83,6 +61,7 @@ class ClassActionsContent extends StatelessWidget {
                   GridView.count(
                     crossAxisCount: 2,
                     shrinkWrap: true,
+                    padding: EdgeInsets.all(0),
                     physics: NeverScrollableScrollPhysics(),
                     children: <Widget>[
                       buildCard(
@@ -207,6 +186,7 @@ class ClassActionsContent extends StatelessWidget {
                   GridView.count(
                     crossAxisCount: 1,
                     shrinkWrap: true,
+                    padding: EdgeInsets.all(0),
                     childAspectRatio: 2.0,
                     physics: NeverScrollableScrollPhysics(),
                     children: <Widget>[
