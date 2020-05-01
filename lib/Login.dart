@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
-// import 'package:encrypt/encrypt.dart' as crypt;
 import 'Home.dart';
 import 'CreateAccount.dart';
 import 'auth.dart';
@@ -98,69 +95,6 @@ class Login extends StatelessWidget {
                             );
                           }
                         }
-
-
-                        // String url = "http://162.144.70.234/~whitworth/login.php";
-                        // http.Response response;
-
-                        // // Set up encrypter
-                        // final key = crypt.Key.fromBase64("AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8=");
-                        // // final iv = crypt.IV.fromBase64(""); // TODO: Add in and change mode to cbc if Kristen can figure it out
-                        // final encrypter = crypt.Encrypter(crypt.AES(key, mode: crypt.AESMode.ecb));
-
-                        // // Encrypt package to send
-                        // final encrypted = encrypter.encrypt("{\"username\":\"${username.text}\",\"password\":\"${password.text}\"}");
-                        // // final decrypted = encrypter.decrypt(crypt.Encrypted.fromBase64(encrypted.base64));
-
-                        // // catch an exception if there's no internet connection
-                        // try {
-                        //   // Send package
-                        //   response = await http.post(url, body: encrypted.base64);
-                        // } catch (e) {
-                        //   return snackKey.currentState.showSnackBar(SnackBar(
-                        //     content: Text("Something went wrong, check your connection and try again."),
-                        //     duration: Duration(seconds: 2)
-                        //   ));
-                        // }
-
-                        // // Decrypt response body
-                        // String body = encrypter.decrypt(crypt.Encrypted.fromBase64(response.body.trim()));
-
-                        // // three possible failures that we want to handle slightly differently
-                        // if (response.statusCode != 200) {
-                        //   return snackKey.currentState.showSnackBar(SnackBar(
-                        //     content: Text("Something went wrong, check your connection and try again."),
-                        //     duration: Duration(seconds: 2)
-                        //   ));
-                        // } else if (body == "Username not found") {
-                        //   return snackKey.currentState.showSnackBar(SnackBar(
-                        //     content: Text("Username not found."),
-                        //     duration: Duration(seconds: 2)
-                        //   ));
-                        // } else if (body == "Incorrect Password") {
-                        //   return snackKey.currentState.showSnackBar(SnackBar(
-                        //     content: Text("Incorrect password."),
-                        //     duration: Duration(seconds: 2)
-                        //   ));
-                        // // we found the username and password pair in the database
-                        // } else {
-                        //   // Response body comes in json format with the account's role as the first value
-                        //   List<dynamic> json = jsonDecode(body);
-                        //   String role = json[0];
-                        //   Navigator.pushReplacement (
-                        //     context,
-                        //     // route to a new page based on the role of the account
-                        //     PageRouteBuilder(
-                        //       pageBuilder: (context, animation1, animation2) {
-                        //         return Admin(username: username.text, role: roleEnum);
-                        //       }
-                        //     )
-                        //   );
-                        //   return snackKey.currentState.showSnackBar(SnackBar(
-                        //     content: Text("Something went wrong, try again."),
-                        //     duration: Duration(seconds: 2)
-                        //   ));
-                        // }
                       }
                     ),
                     Container(height: 40, width: 0),
